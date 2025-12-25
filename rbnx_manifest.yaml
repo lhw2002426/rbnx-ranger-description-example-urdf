@@ -8,7 +8,7 @@ package:
   # build_script: rbnx/build.sh # by default
 
 primitives:
-  - name: cap::description.urdf  # 标准能力名称 (如 cap::grasp.move)
+  - name: prm::description.urdf  # 标准能力名称 (如 cap::grasp.move)
     version: 0.0.1-impl-alpha
     start_script: rbnx/start.sh    # 启动脚本路径 (相对于 package 根目录，如 "rbnx/start_cap.sh")
     stop_script: rbnx/stop.sh     # 停止脚本路径 (相对于 package 根目录，如 "rbnx/stop_cap.sh")
