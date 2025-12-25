@@ -322,12 +322,12 @@
         <xacro:include filename="$(find realsense2_description)/urdf/_d435i.urdf.xacro" />
         
         <!-- 在长方体前方安装RealSense -->
-        <xacro:sensor_d435i parent="box_link" use_nominal_extrinsics="false">
+        <xacro:sensor_d435i parent="box_link"  name="camera_435i" use_nominal_extrinsics="true">
             <origin xyz="0.25 0 0.15" rpy="0 0 0"/>  <!-- 放在长方体前方中间位置 -->
         </xacro:sensor_d435i>
 
         <!-- Mid360激光雷达链接 -->
-        <link name="mid360_lidar_link">
+        <link name="livox_frame">
         <visual>
             <geometry>
             <box size="0.08 0.08 0.05"/>  <!-- 用蓝色盒子表示激光雷达 -->
@@ -350,8 +350,24 @@
         <!-- 连接箱子和激光雷达的关节 -->
         <joint name="box_to_mid360_joint" type="fixed">
         <parent link="box_link"/>
-        <child link="mid360_lidar_link"/>
-        <origin xyz="0.15 0.0 0.275" rpy="0 0 -0.3927"/>  <!-- 前上方，22.5度 = 0.3927弧度 -->
+        <child link="livox_frame"/>
+        <origin xyz="0.15 0.0 0.275" rpy="0 0 0"/>  <!-- 前上方，22.5度 = 0.3927弧度 -->
+        </joint>
+
+        <!-- Pure virtual base_ground link (coordinate frame only) -->
+        <link name="base_ground">
+            <inertial>
+                <mass value="0.000001" />
+                <origin xyz="0 0 0" />
+                <inertia ixx="0.000000001" ixy="0" ixz="0" iyy="0.000000001" iyz="0" izz="0.000000001" />
+            </inertial>
+        </link>
+
+        <!-- Fixed joint connecting base_link to base_ground -->
+        <joint name="base_ground_joint" type="fixed">
+            <origin xyz="0 0 -0.2" rpy="0 0 0" /> 
+            <parent link="base_link"/>
+            <child link="base_ground"/>
         </joint>
 
 </robot>
